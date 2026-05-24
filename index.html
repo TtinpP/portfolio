@@ -17,7 +17,7 @@
 .lb-project-container {
     max-width: 900px;
     width: 95%;
-    max-height: min(85vh, calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - 6rem));
+    max-height: min(72vh, calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - var(--lightbox-counter-space)));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     background: var(--bg2);
@@ -112,6 +112,8 @@
   --safe-bottom:env(safe-area-inset-bottom,0px);
   --safe-left:env(safe-area-inset-left,0px);
   --app-height:100vh;
+  --hero-height:100vh;
+  --lightbox-counter-space:11rem;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--accent-dim) var(--bg);overflow-x:hidden;overflow-x:clip;background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%;}
@@ -198,7 +200,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 /* ============================================
    HERO
    ============================================ */
-.hero{position:relative;height:var(--app-height);min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
+.hero{position:relative;height:var(--hero-height);min-height:var(--hero-height);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
 .hero_video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
 .hero_overlay{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 35% 20%,rgba(251,191,36,.06) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(74,222,128,.05) 0%,transparent 50%),linear-gradient(180deg,rgba(14,28,19,.3) 0%,rgba(14,28,19,.6) 100%);}
 .hero_trees{position:absolute;left:0;width:100%;z-index:2;will-change:transform;transition:transform .15s ease-out;}
@@ -429,16 +431,19 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 .footer{text-align:center;padding:2rem;border-top:2px solid var(--border);font-family:var(--font-pix);font-size:.9rem;color:var(--text2);letter-spacing:1px;}
 
 /* LIGHTBOX & BACK-TOP */
-.lightbox{position:fixed;inset:0;min-height:var(--app-height);padding:calc(3.5rem + var(--safe-top)) calc(1rem + var(--safe-right)) calc(3rem + var(--safe-bottom)) calc(1rem + var(--safe-left));background:rgba(10,18,12,.96);z-index:50000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;overflow:hidden;}
+.lightbox{position:fixed;inset:0;min-height:var(--app-height);padding:calc(3.5rem + var(--safe-top)) calc(1rem + var(--safe-right)) calc(3rem + var(--safe-bottom)) calc(1rem + var(--safe-left));background:rgba(10,18,12,.96);z-index:50000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;overflow:hidden;max-width:100%;}
 .lightbox.open{opacity:1;visibility:visible;}
-.lightbox_content{max-width:min(90vw,1100px);max-height:calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - 6.5rem);position:relative;}
-.lightbox_content img.lb-media,.lightbox_content video.lb-media{max-width:100%;max-height:calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - 6.5rem);object-fit:contain;border:2px solid var(--border-l);}
-.lightbox_close{position:absolute;top:-45px;right:0;background:none;border:none;color:var(--text);cursor:pointer;transition:color .3s;font-family:var(--font-pix);font-size:1.3rem;}
+.lightbox_content{width:min(90vw,1100px);max-width:100%;max-height:calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - var(--lightbox-counter-space));position:relative;overflow:visible;min-width:0;}
+.lightbox_content img.lb-media,.lightbox_content video.lb-media{max-width:100%;max-height:calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - var(--lightbox-counter-space));object-fit:contain;border:2px solid var(--border-l);}
+.lightbox_close{position:absolute;top:-45px;right:0;background:none;border:none;color:var(--text);cursor:pointer;transition:color .3s;font-family:var(--font-pix);font-size:1.3rem;z-index:2;}
 .lightbox_close:hover{color:var(--accent);}
-.lightbox_nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(14,28,19,.85);border:2px solid var(--border);color:var(--text);width:48px;height:48px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-pix);font-size:1.4rem;transition:all .3s;}
+.lightbox_nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(14,28,19,.85);border:2px solid var(--border);color:var(--text);width:48px;height:48px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-pix);font-size:1.4rem;transition:all .3s;z-index:2;}
 .lightbox_nav:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 15px var(--accent-glow);}
 .lightbox_prev{left:-65px;}.lightbox_next{right:-65px;}
-.lightbox_counter{position:absolute;bottom:-38px;left:50%;transform:translateX(-50%);font-family:var(--font-pix);font-size:1rem;color:var(--text2);}
+.lightbox_counter{position:absolute;bottom:-38px;left:50%;transform:translateX(-50%);font-family:var(--font-pix);font-size:1rem;color:var(--text2);z-index:2;}
+.lightbox_content .lb-project-container{width:100%;max-width:100%;overflow-x:hidden;overflow-wrap:anywhere;}
+.lightbox_content .lb-project-container *{max-width:100%;}
+.lightbox_content .lb-project-container pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow-x:hidden;}
 
 .back-top{position:fixed;bottom:calc(2rem + var(--safe-bottom));right:calc(2rem + var(--safe-right));width:48px;height:48px;background:var(--bg2);border:2px solid var(--accent-dim);color:var(--accent);font-family:var(--font-pix);font-size:1.2rem;cursor:pointer;z-index:9998;opacity:0;visibility:hidden;transform:translateY(10px);transition:all .3s;display:flex;align-items:center;justify-content:center;}
 .back-top.visible{opacity:1;visibility:visible;transform:translateY(0);}
@@ -454,6 +459,9 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 
 @supports (height: 100dvh) {
   :root{--app-height:100dvh;}
+}
+@supports (height: 100svh) {
+  :root{--hero-height:100svh;}
 }
 
 /* RESPONSIVE */
@@ -516,7 +524,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
   .contact_link{width:100%;max-width:340px;justify-content:center;font-size:1rem;}
   .lightbox{padding:calc(3.5rem + var(--safe-top)) calc(1rem + var(--safe-right)) calc(3.2rem + var(--safe-bottom)) calc(1rem + var(--safe-left));align-items:center;}
   .lightbox_content{width:100%;max-width:100%;}
-  .lb-project-container{width:100%;padding:1.25rem;max-height:calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - 6.5rem);}
+  .lb-project-container{width:100%;padding:1.25rem;max-height:calc(var(--app-height) - var(--safe-top) - var(--safe-bottom) - var(--lightbox-counter-space));}
   .lightbox_close{top:-38px;right:8px;}
   .lightbox_counter{bottom:-30px;}
   .back-top{right:calc(1rem + var(--safe-right));bottom:calc(1rem + var(--safe-bottom));}
@@ -713,7 +721,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
       <div class="collage-item">
         <img data-src="assets/cinematics/w8_pure.webp" alt="">
         <span>Доска с референсами, мыслями. PureRef
-          <pre>(можно открыть в новой вкладке и рассмотреть подробно <strong><ПКМ></strong>)</pre>
+          <pre>(можно открыть в новой вкладке и рассмотреть подробно <strong>&lt;ПКМ&gt;</strong>)</pre>
         </span>
       </div>
       <!-- Видео -->
@@ -1667,6 +1675,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lbCounter = document.getElementById('lightboxCounter');
   const root = document.documentElement;
   let lockedScrollY = 0;
+  let allowSoundForNextLightboxRender = false;
   // Replace TtinpP with your GitHub username if it is not already correct.
   const MEDIA_BASE_URL = 'https://github.com/TtinpP/portfolio-media/releases/download/media-v1';
   const REMOTE_VIDEO_ENABLED = true;
@@ -1776,6 +1785,10 @@ document.addEventListener('DOMContentLoaded', () => {
     ensureVideoFallback(video, src);
   };
   const shouldKeepVideoMutedForAutoplay = () => touchLikeQuery.matches || isIOSLike;
+  const shouldPlayLightboxVideoWithSound = (container = null) => {
+    const alreadyPreparedVideo = container && container.querySelector('video[data-sound-ready]');
+    return !alreadyPreparedVideo && (!shouldKeepVideoMutedForAutoplay() || allowSoundForNextLightboxRender);
+  };
   const hydrateVideo = (video, src, shouldPlaySound = true, shouldAutoplay = true) => {
     if (!video || !src || video.dataset.videoHydrated === 'true') return;
 
@@ -1787,66 +1800,6 @@ document.addEventListener('DOMContentLoaded', () => {
       video.play().catch(() => {});
     }
   };
-  const prepareQueuedVideo = () => {};
-  /*
-    loadButton.textContent = 'Загрузить видео';
-    parent.appendChild(loadButton);
-
-    const loadVideo = () => {};
-
-    loadButton.addEventListener('click', loadVideo, { once: true });
-    video.addEventListener('play', loadVideo, { once: true });
-  };
-  const waitForVideoBuffered = (video) => new Promise(resolve => {
-    let done = false;
-    let pollTimer = 0;
-    let fallbackTimer = 0;
-
-    const cleanup = () => {
-      video.removeEventListener('canplaythrough', finish);
-      video.removeEventListener('loadeddata', schedulePoll);
-      video.removeEventListener('progress', schedulePoll);
-      window.clearTimeout(pollTimer);
-      window.clearTimeout(fallbackTimer);
-    };
-    const isBufferedEnough = () => {
-      if (!Number.isFinite(video.duration) || video.duration <= 0 || video.buffered.length === 0) return false;
-      return video.buffered.end(video.buffered.length - 1) >= video.duration - 0.5;
-    };
-    const finish = () => {
-      if (done) return;
-      done = true;
-      cleanup();
-      resolve();
-    };
-    const poll = () => {
-      if (isBufferedEnough()) finish();
-      else schedulePoll();
-    };
-    function schedulePoll() {
-      if (done || pollTimer) return;
-      pollTimer = window.setTimeout(() => {
-        pollTimer = 0;
-        poll();
-      }, 500);
-    }
-
-    video.addEventListener('canplaythrough', finish, { once: true });
-    video.addEventListener('loadeddata', schedulePoll);
-    video.addEventListener('progress', schedulePoll);
-    fallbackTimer = window.setTimeout(finish, 12000);
-    schedulePoll();
-  });
-  const hydrateProjectVideosSequentially = async (videoQueue) => {
-    for (const item of videoQueue) {
-      if (!lb || !lb.classList.contains('open')) return;
-      if (!document.body.contains(item.video)) return;
-      item.video.dataset.videoQueued = 'false';
-      hydrateVideo(item.video, item.src, item.shouldPlaySound, item.shouldAutoplay);
-      await waitForVideoBuffered(item.video);
-    }
-  };
-  */
   const isPlaceholderMediaSrc = (src) => {
     if (!src) return true;
 
@@ -2314,13 +2267,13 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
         const videoSrc = resolveMediaSrc(video.dataset.src);
-        const shouldPlaySound = !shouldKeepVideoMutedForAutoplay() && !container.querySelector('video[data-sound-ready]');
+        const shouldPlaySound = shouldPlayLightboxVideoWithSound(container);
         video.dataset.soundReady = 'true';
         hydrateVideo(video, videoSrc, shouldPlaySound, true);
         video.removeAttribute('data-src');
       });
       container.querySelectorAll('video:not([data-sound-ready])').forEach(video => {
-        prepareLightboxVideoSound(video, !shouldKeepVideoMutedForAutoplay() && !container.querySelector('video[data-sound-ready]'));
+        prepareLightboxVideoSound(video, shouldPlayLightboxVideoWithSound(container));
         if (video.hasAttribute('autoplay')) {
           video.play().catch(() => {});
         }
@@ -2343,7 +2296,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lbC.appendChild(media);
     if (media.tagName === 'VIDEO') {
-      hydrateVideo(media, mediaSrc, !shouldKeepVideoMutedForAutoplay(), true);
+      hydrateVideo(media, mediaSrc, shouldPlayLightboxVideoWithSound(), true);
       ensureVideoFallback(media, mediaSrc);
     }
   };
@@ -2353,6 +2306,7 @@ document.addEventListener('DOMContentLoaded', () => {
     isTransitioning = true;
     currentLightboxIndex = getVisibleOpenableItems().indexOf(item);
     renderLightboxItem(item);
+    allowSoundForNextLightboxRender = false;
     lb.classList.add('open');
     syncBodyScrollState();
     updateLightboxControls();
@@ -2490,6 +2444,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     card.addEventListener('click', (e) => {
       if (!isOpenableItem(card) || e.target.closest('[data-before-after]')) return;
+      allowSoundForNextLightboxRender = e.isTrusted;
       openLB(card);
     });
 
@@ -2497,6 +2452,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isOpenableItem(card)) return;
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
+        allowSoundForNextLightboxRender = e.isTrusted;
         openLB(card);
       }
     });
@@ -2530,8 +2486,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if (lbClose) lbClose.addEventListener('click', closeLB);
-  if (lbPrev) lbPrev.addEventListener('click', () => stepLightbox(-1));
-  if (lbNext) lbNext.addEventListener('click', () => stepLightbox(1));
+  if (lbPrev) lbPrev.addEventListener('click', (e) => {
+    allowSoundForNextLightboxRender = e.isTrusted;
+    stepLightbox(-1);
+    allowSoundForNextLightboxRender = false;
+  });
+  if (lbNext) lbNext.addEventListener('click', (e) => {
+    allowSoundForNextLightboxRender = e.isTrusted;
+    stepLightbox(1);
+    allowSoundForNextLightboxRender = false;
+  });
   if (lb) lb.addEventListener('click', (e) => { if (e.target === lb) closeLB(); });
 
   if (canvas) {
