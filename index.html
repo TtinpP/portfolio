@@ -1741,14 +1741,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const ensureVideoFallback = (video, src) => {
     if (!video || !src) return;
 
-    let fallback = Array.from(parent.children).find(child => child.classList && child.classList.contains('video-fallback'));
+    let fallback = video.nextElementSibling;
+    if (!fallback || !fallback.classList || !fallback.classList.contains('video-fallback')) {
+      fallback = null;
+    }
     if (!fallback) {
       fallback = document.createElement('a');
       fallback.className = 'video-fallback';
       fallback.target = '_blank';
       fallback.rel = 'noopener';
       fallback.textContent = 'Открыть видео отдельно';
-      parent.appendChild(fallback);
+      video.insertAdjacentElement('afterend', fallback);
     }
 
     fallback.href = src;
@@ -1772,8 +1775,7 @@ document.addEventListener('DOMContentLoaded', () => {
     video.appendChild(source);
     ensureVideoFallback(video, src);
   };
-  const shouldKeepVideoMutedForAutoplay = () => false;
-  const shouldQueueProjectVideos = () => touchLikeQuery.matches || isIOSLike;
+  const shouldKeepVideoMutedForAutoplay = () => touchLikeQuery.matches || isIOSLike;
   const hydrateVideo = (video, src, shouldPlaySound = true, shouldAutoplay = true) => {
     if (!video || !src || video.dataset.videoHydrated === 'true') return;
 
@@ -1785,23 +1787,8 @@ document.addEventListener('DOMContentLoaded', () => {
       video.play().catch(() => {});
     }
   };
-  const prepareQueuedVideo = (video, src, shouldPlaySound = true) => {
-    if (!video || !src) return;
-    const parent = { appendChild: () => {} };
-    const loadButton = { textContent: '', classList: { add: () => {} }, addEventListener: () => {} };
-
-    video.dataset.resolvedSrc = src;
-    video.dataset.videoQueued = 'true';
-    video.preload = 'none';
-    video.playsInline = true;
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
-    video.removeAttribute('src');
-    video.querySelectorAll('source').forEach(source => source.remove());
-    prepareLightboxVideoSound(video, shouldPlaySound);
-    ensureVideoFallback(video, src);
-
+  const prepareQueuedVideo = () => {};
+  /*
     loadButton.textContent = 'Загрузить видео';
     parent.appendChild(loadButton);
 
@@ -1859,6 +1846,7 @@ document.addEventListener('DOMContentLoaded', () => {
       await waitForVideoBuffered(item.video);
     }
   };
+  */
   const isPlaceholderMediaSrc = (src) => {
     if (!src) return true;
 
@@ -2320,7 +2308,6 @@ document.addEventListener('DOMContentLoaded', () => {
         img.removeAttribute('data-src');
       });
 
-      const projectVideoQueue = [];
       container.querySelectorAll('video[data-src]').forEach(video => {
         if (isPlaceholderMediaSrc(video.dataset.src)) {
           video.removeAttribute('data-src');
@@ -2329,19 +2316,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const videoSrc = resolveMediaSrc(video.dataset.src);
         const shouldPlaySound = !shouldKeepVideoMutedForAutoplay() && !container.querySelector('video[data-sound-ready]');
         video.dataset.soundReady = 'true';
-        if (shouldQueueProjectVideos()) {
-          prepareQueuedVideo(video, videoSrc, shouldPlaySound);
-          projectVideoQueue.push({ video, src: videoSrc, shouldPlaySound, shouldAutoplay: true });
-        } else {
-          hydrateVideo(video, videoSrc, shouldPlaySound, true);
-        }
+        hydrateVideo(video, videoSrc, shouldPlaySound, true);
         video.removeAttribute('data-src');
       });
-      if (projectVideoQueue.length > 0) {
-        hydrateProjectVideosSequentially(projectVideoQueue);
-      }
       container.querySelectorAll('video:not([data-sound-ready])').forEach(video => {
-        if (video.dataset.videoQueued === 'true') return;
         prepareLightboxVideoSound(video, !shouldKeepVideoMutedForAutoplay() && !container.querySelector('video[data-sound-ready]'));
         if (video.hasAttribute('autoplay')) {
           video.play().catch(() => {});
