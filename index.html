@@ -79,6 +79,29 @@
     display: inline-flex;
 }
 
+.video-load-button {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0.65rem 1.1rem;
+    border: 2px solid var(--accent);
+    background: rgba(14,28,19,.88);
+    color: var(--accent);
+    font-family: var(--font-pix);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.video-load-button.is-hidden {
+    display: none;
+}
+
 .collage-item span {
     font-family: var(--font-pix);
     font-size: 1rem;
@@ -1774,6 +1797,52 @@ document.addEventListener('DOMContentLoaded', () => {
     ensureVideoFallback(video, src);
   };
   const shouldKeepVideoMutedForAutoplay = () => touchLikeQuery.matches || isIOSLike;
+  const shouldDeferSecondaryProjectVideos = () => touchLikeQuery.matches || isIOSLike;
+  const hydrateVideo = (video, src, shouldPlaySound = true, shouldAutoplay = true) => {
+    if (!video || !src || video.dataset.videoHydrated === 'true') return;
+
+    setVideoSource(video, src);
+    prepareLightboxVideoSound(video, shouldPlaySound);
+    video.dataset.videoHydrated = 'true';
+    video.load();
+    if (shouldAutoplay && video.hasAttribute('autoplay')) {
+      video.play().catch(() => {});
+    }
+  };
+  const deferProjectVideo = (video, src, shouldPlaySound = true) => {
+    const parent = video.parentElement;
+    if (!parent) return;
+
+    video.dataset.resolvedSrc = src;
+    video.dataset.videoDeferred = 'true';
+    video.preload = 'none';
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('controlsList', 'nodownload noplaybackrate noremoteplayback');
+    video.removeAttribute('src');
+    video.querySelectorAll('source').forEach(source => source.remove());
+    prepareLightboxVideoSound(video, shouldPlaySound);
+    ensureVideoFallback(video, src);
+
+    if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative';
+
+    const loadButton = document.createElement('button');
+    loadButton.type = 'button';
+    loadButton.className = 'video-load-button pixel-corners';
+    loadButton.textContent = 'Загрузить видео';
+    parent.appendChild(loadButton);
+
+    const loadVideo = () => {
+      loadButton.classList.add('is-hidden');
+      video.dataset.videoDeferred = 'false';
+      hydrateVideo(video, src, shouldPlaySound, true);
+      video.play().catch(() => {});
+    };
+
+    loadButton.addEventListener('click', loadVideo, { once: true });
+    video.addEventListener('play', loadVideo, { once: true });
+  };
   const isPlaceholderMediaSrc = (src) => {
     if (!src) return true;
 
@@ -2235,21 +2304,25 @@ document.addEventListener('DOMContentLoaded', () => {
         img.removeAttribute('data-src');
       });
 
+      let hydratedProjectVideoCount = 0;
       container.querySelectorAll('video[data-src]').forEach(video => {
         if (isPlaceholderMediaSrc(video.dataset.src)) {
           video.removeAttribute('data-src');
           return;
         }
-        setVideoSource(video, resolveMediaSrc(video.dataset.src));
-        prepareLightboxVideoSound(video, !shouldKeepVideoMutedForAutoplay() && !container.querySelector('video[data-sound-ready]'));
+        const videoSrc = resolveMediaSrc(video.dataset.src);
+        const shouldPlaySound = !shouldKeepVideoMutedForAutoplay() && !container.querySelector('video[data-sound-ready]');
         video.dataset.soundReady = 'true';
-        video.load();
-        if (video.hasAttribute('autoplay')) {
-          video.play().catch(() => {});
+        if (shouldDeferSecondaryProjectVideos() && hydratedProjectVideoCount > 0) {
+          deferProjectVideo(video, videoSrc, shouldPlaySound);
+        } else {
+          hydrateVideo(video, videoSrc, shouldPlaySound, true);
+          hydratedProjectVideoCount += 1;
         }
         video.removeAttribute('data-src');
       });
       container.querySelectorAll('video:not([data-sound-ready])').forEach(video => {
+        if (video.dataset.videoDeferred === 'true') return;
         prepareLightboxVideoSound(video, !shouldKeepVideoMutedForAutoplay() && !container.querySelector('video[data-sound-ready]'));
         if (video.hasAttribute('autoplay')) {
           video.play().catch(() => {});
@@ -2267,14 +2340,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (media.tagName === 'VIDEO') {
       media.controls = true;
       media.autoplay = true;
-      prepareLightboxVideoSound(media, !shouldKeepVideoMutedForAutoplay());
-      setVideoSource(media, mediaSrc);
     } else {
       media.src = mediaSrc;
     }
 
     lbC.appendChild(media);
-    if (media.tagName === 'VIDEO') ensureVideoFallback(media, mediaSrc);
+    if (media.tagName === 'VIDEO') {
+      hydrateVideo(media, mediaSrc, !shouldKeepVideoMutedForAutoplay(), true);
+      ensureVideoFallback(media, mediaSrc);
+    }
   };
 
   const openLB = (item) => {
