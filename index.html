@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -107,6 +107,12 @@
   --section-py:clamp(80px,10vw,140px);
   --font-pix:'VT323',monospace;
   --font-body:'Inter',sans-serif;
+  --fs-body:.95rem;
+  --fs-body-sm:.88rem;
+  --fs-caption:.8rem;
+  --fs-section-title:clamp(2.2rem,4vw,3.5rem);
+  --fs-card-title:clamp(1.18rem,1.35vw,1.45rem);
+  --fs-card-title-featured:clamp(1.35rem,1.8vw,1.75rem);
   --safe-top:env(safe-area-inset-top,0px);
   --safe-right:env(safe-area-inset-right,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
@@ -290,6 +296,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 .hero_cta:hover .hero_cta_shard,.hero_cta:focus-visible .hero_cta_shard,.hero_cta.is-fragmenting .hero_cta_shard{opacity:1;transform:translate3d(var(--shard-x,0px),var(--shard-y,0px),var(--shard-z,0px)) rotate(var(--shard-rz,0deg));filter:blur(var(--shard-blur,0px));border-color:var(--accent);box-shadow:0 0 0 1px rgba(74,222,128,.06) inset,0 0 16px rgba(74,222,128,.1),inset 0 0 18px rgba(74,222,128,.03);}
 .hero_cta:hover .hero_cta_shard::before,.hero_cta:focus-visible .hero_cta_shard::before,.hero_cta.is-fragmenting .hero_cta_shard::before{opacity:.45;}
 .hero_cta:hover .hero_cta_shard::after,.hero_cta:focus-visible .hero_cta_shard::after,.hero_cta.is-fragmenting .hero_cta_shard::after{opacity:.6;transform:translate(-50%,-50%) rotate(var(--tether-r,0deg)) scaleX(1);}
+.section-anchor{position:relative;top:calc(-1 * (4.5rem + var(--safe-top)));display:block;width:1px;height:1px;overflow:hidden;}
 .hero_scroll{position:absolute;bottom:calc(2rem + var(--safe-bottom));left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:.5rem;}
 .hero_scroll span{font-family:var(--font-pix);font-size:.85rem;color:var(--text2);letter-spacing:3px;}
 .scroll-dots{display:flex;flex-direction:column;gap:4px;align-items:center;}
@@ -303,9 +310,9 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 .section{padding:var(--section-py) 2rem;max-width:1400px;margin:0 auto;position:relative;overflow-x:clip;}
 .section_header{text-align:center;margin-bottom:clamp(3rem,5vw,4.5rem);}
 .section_number{font-family:var(--font-pix);font-size:1rem;color:var(--accent-dim);letter-spacing:3px;margin-bottom:.4rem;display:block;}
-.section_title{font-size:clamp(2.2rem,4vw,3.5rem);margin-bottom:.8rem;letter-spacing:2px;}
+.section_title{font-size:var(--fs-section-title);line-height:1.15;margin-bottom:.8rem;letter-spacing:2px;}
 .section_title em{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(74,222,128,.2);}
-.section_desc{color:var(--text2);max-width:560px;margin:0 auto;font-size:clamp(.9rem,1.1vw,1rem);font-family:var(--font-body);}
+.section_desc{color:var(--text2);max-width:560px;margin:0 auto;font-family:var(--font-body);font-size:clamp(.9rem,1.1vw,1rem);line-height:1.6;letter-spacing:0;}
 .section_divider{width:100px;height:4px;margin:1.5rem auto 0;background:repeating-linear-gradient(90deg,var(--accent-dim) 0,var(--accent-dim) 8px,transparent 8px,transparent 12px);}
 .section-border{border-top:2px solid var(--border);}
 .section-alt{background:var(--bg2);}
@@ -332,6 +339,71 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 .showreel_wrapper{position:relative;max-width:1100px;margin:0 auto;overflow:hidden;border:3px solid var(--border-l);box-shadow:0 25px 80px rgba(0,0,0,.5),0 0 60px var(--accent-glow);aspect-ratio:16/9;transition:transform .5s,box-shadow .5s; z-index: 5;}
 .showreel_wrapper:hover{transform:perspective(1000px) rotateX(1deg) scale(1.01);box-shadow:0 30px 90px rgba(0,0,0,.5),0 0 80px rgba(74,222,128,.08);}
 .showreel_wrapper video{width:100%;height:100%;object-fit:cover;}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);position:relative;z-index:5;}
+.service-card{grid-column:span 1;position:relative;min-width:0;min-height:360px;background:var(--bg-card);border:2px solid var(--border);box-shadow:0 14px 40px rgba(0,0,0,.28),inset 0 0 0 1px rgba(74,222,128,.04);overflow:hidden;isolation:isolate;cursor:default;transition:border-color .28s ease,box-shadow .28s ease,transform .28s ease;}
+.service-card::after{content:'';position:absolute;inset:0;z-index:4;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(74,222,128,.03) 0,rgba(74,222,128,.03) 1px,transparent 1px,transparent 5px);opacity:.22;mix-blend-mode:screen;}
+.service-card_featured,.service-card_core{grid-column:span 2;min-height:460px;border-color:var(--accent);box-shadow:0 18px 54px rgba(0,0,0,.34),0 0 24px rgba(74,222,128,.12),inset 0 0 0 1px rgba(74,222,128,.06);}
+.service-card_compact{min-height:360px;}
+.service-media{position:absolute;inset:0;z-index:0;background:var(--bg);overflow:hidden;}
+.service-media_asset{width:100%;height:100%;object-fit:cover;opacity:.84;filter:saturate(.82) brightness(.72);transform:scale(1);transition:transform .36s ease,filter .36s ease,opacity .28s ease;}
+.service-card_compact .service-media_asset{object-position:center;}
+.service-media_overlay{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(7,16,10,.24) 0%,rgba(7,16,10,.5) 42%,rgba(7,16,10,.94) 100%),radial-gradient(circle at 18% 12%,rgba(74,222,128,.1),transparent 36%);}
+.service-card_base{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:space-between;padding:1.15rem;pointer-events:none;}
+.service-card_featured .service-card_base,.service-card_core .service-card_base{padding:1.55rem;}
+.service-topline{display:flex;align-items:center;justify-content:space-between;gap:.75rem;font-family:var(--font-pix);letter-spacing:2px;}
+.service-index{color:var(--accent);font-size:1rem;text-shadow:0 0 12px var(--accent-glow);}
+.service-badge{display:inline-flex;align-items:center;min-height:26px;padding:.16rem .65rem;background:rgba(251,191,36,.08);border:1px solid var(--gold);font-family:var(--font-pix);font-size:.85rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 12px rgba(251,191,36,.16);white-space:nowrap;}
+.service-base_bottom{max-width:92%;transition:transform .32s ease,opacity .26s ease;}
+.service-title{font-size:var(--fs-card-title);line-height:1.12;letter-spacing:1px;color:var(--text);margin-bottom:.4rem;text-shadow:0 3px 14px rgba(0,0,0,.9),0 0 10px rgba(14,28,19,.75);}
+.service-card_featured .service-title,.service-card_core .service-title{font-size:var(--fs-card-title-featured);color:var(--accent);text-shadow:0 0 18px rgba(74,222,128,.18),0 3px 14px rgba(0,0,0,.92);}
+.service-card_vector .service-card_base{padding-left:.9rem;padding-right:.75rem;}
+.service-card_vector .service-base_bottom{width:calc(100% + .25rem);max-width:none;}
+.service-card_vector .service-title{font-size:var(--fs-card-title);line-height:1.08;white-space:nowrap;letter-spacing:0;}
+.service-result{margin:0 0 .7rem;font-family:var(--font-pix);font-size:.95rem;line-height:1.2;letter-spacing:1px;color:var(--text);text-shadow:0 3px 12px rgba(0,0,0,.92),0 0 10px rgba(14,28,19,.8);}
+.service-result span{color:var(--text2);}
+.service-format{margin:-.35rem 0 .72rem;font-family:var(--font-pix);font-size:.8rem;line-height:1.2;letter-spacing:1px;color:var(--text2);opacity:.85;text-shadow:0 2px 10px rgba(0,0,0,.85);}
+.service-summary{color:var(--text2);font-family:var(--font-pix);font-size:var(--fs-body-sm);line-height:1.42;letter-spacing:.7px;margin:0;overflow-wrap:anywhere;}
+.service-list{display:grid;gap:.38rem;margin:0 0 .85rem;padding:0;list-style:none;color:var(--text);font-family:var(--font-pix);font-size:var(--fs-body-sm);line-height:1.32;letter-spacing:.7px;}
+.service-list li{position:relative;padding-left:1rem;overflow-wrap:anywhere;}
+.service-list li::before{content:'>';position:absolute;left:0;top:0;color:var(--accent);font-family:var(--font-pix);}
+.service-price{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:.35rem;width:fit-content;color:var(--gold);font-family:var(--font-pix);line-height:1;text-shadow:0 0 12px rgba(251,191,36,.16),0 3px 12px rgba(0,0,0,.92);}
+.service-price small{font-size:.82rem;color:var(--text2);letter-spacing:1px;}
+.service-price strong{font-size:clamp(1.35rem,1.7vw,1.65rem);font-weight:400;letter-spacing:1px;white-space:nowrap;}
+.service-price-ladder{display:grid;gap:.35rem;margin:.75rem 0 .95rem;padding:.68rem 0;border-top:1px dashed rgba(58,122,80,.7);border-bottom:1px dashed rgba(58,122,80,.7);font-family:var(--font-pix);font-size:.86rem;line-height:1.24;letter-spacing:1px;color:var(--text2);}
+.service-price-ladder span{position:relative;display:block;padding-left:1rem;overflow-wrap:anywhere;}
+.service-price-ladder span::before{content:'>';position:absolute;left:0;top:0;color:var(--accent);}
+.service-price-ladder b{font-weight:400;color:var(--text);}
+.service-price-ladder strong{font-weight:400;color:var(--gold);white-space:nowrap;}
+.service-reveal-panel{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:.95rem 1rem;background:rgba(14,28,19,.88);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-top:1px solid var(--border-l);box-shadow:0 -16px 34px rgba(0,0,0,.26),inset 0 1px 0 rgba(74,222,128,.04);opacity:0;transform:translateY(24px);pointer-events:none;transition:opacity .32s ease,transform .36s ease,border-color .28s ease;}
+.service-card_featured .service-reveal-panel,.service-card_core .service-reveal-panel{padding:1rem 1.2rem;}
+.service-cta{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:44px;padding:.65rem 1rem;background:rgba(74,222,128,.12);border:2px solid var(--accent-dim);font-family:var(--font-pix);font-size:1rem;letter-spacing:1px;color:var(--accent);transition:background .22s,border-color .22s,color .22s,box-shadow .22s;text-align:center;}
+.service-cta_primary{background:var(--accent);border-color:var(--accent);color:var(--bg);box-shadow:0 0 20px rgba(74,222,128,.18);}
+.service-cta:hover{background:var(--accent);border-color:var(--accent);color:var(--bg);box-shadow:0 0 20px var(--accent-glow);}
+.service-cta_primary:hover{background:var(--accent-l);border-color:var(--accent-l);box-shadow:0 0 26px rgba(74,222,128,.24);}
+.service-flow-preview{position:absolute;inset:12% 8%;z-index:0;background:linear-gradient(24deg,transparent 18%,rgba(74,222,128,.2) 18% 19%,transparent 20%),linear-gradient(150deg,transparent 38%,rgba(74,222,128,.16) 38% 39%,transparent 40%),linear-gradient(0deg,transparent 55%,rgba(251,191,36,.14) 55% 56%,transparent 57%);opacity:.8;}
+.flow-node{position:absolute;display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:22px;padding:.12rem .45rem;background:rgba(14,28,19,.76);border:1px solid rgba(58,122,80,.72);font-family:var(--font-pix);font-size:.78rem;letter-spacing:1px;color:var(--text2);box-shadow:0 0 10px rgba(74,222,128,.04);}
+.flow-node::before{content:'';width:5px;height:5px;margin-right:.32rem;background:var(--accent);box-shadow:0 0 8px rgba(74,222,128,.24);}
+.flow-node--form{left:6%;top:34%;}
+.flow-node--bot{left:34%;top:56%;}
+.flow-node--role{right:28%;top:22%;}
+.flow-node--notify{right:0;bottom:6%;}
+.service-vector-preview{position:absolute;inset:9% 8%;z-index:0;border:1px solid rgba(74,222,128,.24);background:linear-gradient(135deg,rgba(74,222,128,.12),transparent 38%),linear-gradient(0deg,rgba(7,16,10,.92),rgba(14,28,19,.72));box-shadow:inset 0 0 0 1px rgba(251,191,36,.1),0 0 26px rgba(74,222,128,.08);overflow:hidden;}
+.service-vector-preview::before{content:'BUBSEN';position:absolute;left:8%;top:16%;font-family:var(--font-pix);font-size:clamp(1.6rem,3.5vw,2.8rem);letter-spacing:3px;color:var(--accent);text-shadow:0 0 18px rgba(74,222,128,.24);}
+.service-vector-preview::after{content:'KEY VISUAL';position:absolute;right:8%;bottom:12%;font-family:var(--font-pix);font-size:.8rem;letter-spacing:2px;color:var(--gold);border-top:1px solid rgba(251,191,36,.5);padding-top:.35rem;}
+.vector-line{position:absolute;height:2px;background:rgba(74,222,128,.45);box-shadow:0 0 12px rgba(74,222,128,.14);transform-origin:left center;}
+.vector-line--a{left:10%;top:55%;width:72%;transform:rotate(-8deg);}
+.vector-line--b{left:18%;top:72%;width:48%;transform:rotate(5deg);background:rgba(251,191,36,.42);}
+.vector-mark{position:absolute;right:16%;top:22%;width:42px;aspect-ratio:1;border:2px solid rgba(251,191,36,.6);transform:rotate(45deg);box-shadow:0 0 18px rgba(251,191,36,.12);}
+@media(hover:hover) and (pointer:fine){
+  .services-grid .service-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 18px 54px rgba(0,0,0,.34),0 0 22px rgba(74,222,128,.13),inset 0 0 16px rgba(74,222,128,.035);}
+  .service-reveal-card:hover .service-reveal-panel,.service-reveal-card:focus-within .service-reveal-panel{opacity:1;transform:translateY(0);pointer-events:auto;border-color:var(--accent-dim);}
+  .service-reveal-card:hover .service-media_asset,.service-reveal-card:focus-within .service-media_asset{filter:brightness(.45) saturate(.75);transform:scale(1.025);}
+  .service-reveal-card:hover .service-media_overlay,.service-reveal-card:focus-within .service-media_overlay{background:linear-gradient(180deg,rgba(7,16,10,.44) 0%,rgba(7,16,10,.74) 48%,rgba(7,16,10,.97) 100%);}
+  .service-reveal-card:hover .service-base_bottom,.service-reveal-card:focus-within .service-base_bottom{opacity:.28;transform:translateY(-10px);}
+  .service-reveal-card:hover .service-price strong,.service-reveal-card:focus-within .service-price strong{color:var(--gold-l);}
+}
 
 /* ============================================
    PORTFOLIO HUB & FILTERS
@@ -402,12 +474,30 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 .gallery-item--wide { grid-column: 1 / -1; cursor: default; background: var(--bg-card); border: 2px solid var(--border); display: flex; flex-direction: row; align-items: stretch; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 .gallery-item--wide .wide-media { flex: 1 1 50%; position: relative; border-right: 2px solid var(--border); overflow: hidden; min-height: 350px;}
 .gallery-item--wide .wide-media img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-item--wide .wide-media video { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--bg); }
 .gallery-item--wide .wide-content { flex: 1 1 50%; padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
 .wide-content h3 { font-family: var(--font-pix); font-size: 2rem; color: var(--accent); margin-bottom: 1rem; letter-spacing: 1px; }
 .wide-content p { color: var(--text2); font-size: 0.95rem; margin-bottom: 1rem; }
 .wide-content ul { list-style: none; margin-bottom: 1.5rem; }
 .wide-content ul li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text); }
 .wide-content ul li::before { content: '►'; position: absolute; left: 0; color: var(--accent-dim); font-size: 0.8rem; top: 2px;}
+.portfolio-kicker{display:block;margin-bottom:.75rem;font-family:var(--font-pix);font-size:.9rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;}
+.animation-reel-card{cursor:pointer;display:block;position:relative;border-color:var(--accent-dim);box-shadow:0 18px 54px rgba(0,0,0,.34),0 0 28px rgba(74,222,128,.08);}
+.animation-reel-card .wide-media{border-right:0;border-bottom:2px solid var(--border);min-height:0;aspect-ratio:16/9;}
+.animation-reel-card .wide-media::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 0%,rgba(7,16,10,.08) 38%,rgba(7,16,10,.82) 100%),linear-gradient(to top,rgba(14,28,19,.42),transparent 58%);}
+.animation-reel-card .wide-content{position:absolute;top:1.35rem;right:1.35rem;z-index:3;width:min(390px,38%);padding:1rem 1.05rem;background:rgba(7,16,10,.78);border:1px solid rgba(74,222,128,.34);box-shadow:0 16px 34px rgba(0,0,0,.36),inset 0 0 0 1px rgba(74,222,128,.04);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);justify-content:flex-start;}
+.animation-reel-card .wide-content::before{content:'RENDER PIPELINE';display:block;margin-bottom:.55rem;padding-bottom:.45rem;border-bottom:1px dashed rgba(74,222,128,.28);font-family:var(--font-pix);font-size:.76rem;letter-spacing:2px;color:var(--accent-dim);}
+.animation-reel-card .portfolio-kicker{margin-bottom:.35rem;font-size:.76rem;}
+.animation-reel-card .wide-content h3{margin-bottom:.55rem;font-size:clamp(1.15rem,2.1vw,1.75rem);line-height:1.05;}
+.animation-reel-card .wide-content p{margin-bottom:.75rem;font-size:.82rem;line-height:1.35;}
+.animation-reel-card .wide-content ul{display:none;}
+.animation-reel-card .tech-stack{gap:.35rem;}
+.animation-reel-card .tech-tag{font-size:.76rem;padding:.16rem .55rem;background:rgba(14,28,19,.72);}
+.animation-slot{cursor:default;}
+.animation-slot .gallery-item_inner{border-style:dashed;box-shadow:inset 0 0 0 1px rgba(74,222,128,.04);}
+.animation-slot_art{position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,28,19,.96),rgba(7,16,10,.98));overflow:hidden;}
+.animation-slot_art::before{content:'';position:absolute;inset:14px;background:linear-gradient(rgba(74,222,128,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(74,222,128,.08) 1px,transparent 1px);background-size:28px 28px;opacity:.42;}
+.animation-slot_art::after{content:'';position:absolute;left:50%;top:50%;width:44%;aspect-ratio:1;border:2px solid rgba(74,222,128,.28);transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 32px rgba(74,222,128,.08),inset 0 0 28px rgba(74,222,128,.04);}
 .tech-stack { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .tech-tag { background: var(--bg); border: 1px solid var(--border-l); font-family: var(--font-pix); padding: 0.2rem 0.8rem; font-size: 0.9rem; color: var(--gold); }
 
@@ -466,6 +556,8 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
+  .services-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .service-card,.service-card_featured{grid-column:auto;}
   .gallery-item--wide { flex-direction: column; }
   .gallery-item--wide .wide-media { border-right: none; border-bottom: 2px solid var(--border); min-height: 250px;}
   .about_grid{grid-template-columns:1fr;gap:2.5rem;}
@@ -480,6 +572,26 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
   .burger{display:flex;}
   .portfolio-filters{display:none;}
   .portfolio-filters_mobile{display:flex;}
+  .services-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;}
+  .service-card,.service-card_featured,.service-card_core,.service-card_compact{grid-column:auto;min-height:0;height:auto;display:flex;flex-direction:column;}
+  .service-card_featured,.service-card_core{grid-column:1 / -1;}
+  .service-media{position:relative;height:170px;inset:auto;flex:0 0 auto;}
+  .service-media_asset{height:100%;filter:saturate(.82) brightness(.74);}
+  .service-media_overlay{background:linear-gradient(180deg,rgba(7,16,10,.1),rgba(7,16,10,.55));}
+  .service-card_base{position:relative;inset:auto;padding:1rem 1rem .7rem;pointer-events:auto;}
+  .service-card_featured .service-card_base,.service-card_core .service-card_base{padding:1rem 1rem .7rem;}
+  .service-card_base .service-topline{margin-bottom:1.2rem;}
+  .service-base_bottom{max-width:100%;}
+  .section_title{font-size:clamp(2.2rem,9vw,3rem);}
+  .section_desc{font-size:.9rem;line-height:1.55;}
+  .service-title,.service-card_featured .service-title{font-size:1.25rem;line-height:1.14;}
+  .service-summary{font-size:.86rem;line-height:1.5;}
+  .service-result{font-size:.88rem;}
+  .service-reveal-panel,.service-card_featured .service-reveal-panel,.service-card_core .service-reveal-panel{position:relative;left:auto;right:auto;bottom:auto;opacity:1;transform:none;pointer-events:auto;margin:0 1rem 1rem;padding:.95rem;background:rgba(14,28,19,.84);border:1px solid var(--border-l);box-shadow:inset 0 0 14px rgba(74,222,128,.035);}
+  .service-list{font-size:.86rem;line-height:1.4;}
+  .service-price{justify-items:start;}
+  .service-price-ladder{font-size:.78rem;line-height:1.28;gap:.26rem;margin:.65rem 0 .85rem;padding:.58rem 0;}
+  .service-cta{width:100%;font-size:1rem;}
   .gallery-grid{grid-template-columns:minmax(0,1fr);}
   .filter-btn { font-size: 0.9rem; padding: 0.5rem 1rem; }
   .section{padding:clamp(50px,8vw,80px) calc(1rem + var(--safe-right)) clamp(50px,8vw,80px) calc(1rem + var(--safe-left));}
@@ -521,6 +633,11 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
   .gallery-item_overlay p{font-size:.8rem;line-height:1.2;}
   .gallery-item_play{opacity:1;transform:translate(-50%,-50%) scale(.92);}
   .gallery-item--wide .wide-content{padding:1.5rem;}
+  .animation-reel-card .wide-content{top:auto;right:1rem;bottom:1rem;left:1rem;width:auto;padding:.9rem;}
+  .animation-reel-card .wide-content::before{display:none;}
+  .animation-reel-card .wide-content h3{font-size:1.15rem;}
+  .animation-reel-card .wide-content p{display:none;}
+  .animation-reel-card .tech-tag{font-size:.7rem;}
   .contact_link{width:100%;max-width:340px;justify-content:center;font-size:1rem;}
   .lightbox{padding:calc(3.5rem + var(--safe-top)) calc(1rem + var(--safe-right)) calc(3.2rem + var(--safe-bottom)) calc(1rem + var(--safe-left));align-items:center;}
   .lightbox_content{width:100%;max-width:100%;}
@@ -528,6 +645,13 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
   .lightbox_close{top:-38px;right:8px;}
   .lightbox_counter{bottom:-30px;}
   .back-top{right:calc(1rem + var(--safe-right));bottom:calc(1rem + var(--safe-bottom));}
+}
+@media(max-width:560px){
+  .services-grid{grid-template-columns:minmax(0,1fr);}
+  .service-card,.service-card_featured,.service-card_core,.service-card_compact{grid-column:auto;}
+  .service-media{height:150px;}
+  .service-badge{font-size:.76rem;letter-spacing:1px;}
+  .service-reveal-panel,.service-card_featured .service-reveal-panel,.service-card_core .service-reveal-panel{margin:0 .85rem .85rem;padding:.85rem;}
 }
 @media(max-width:768px) and (orientation:landscape) and (max-height:520px){
   .hero_content{padding:calc(4.5rem + var(--safe-top)) 1rem calc(2rem + var(--safe-bottom));}
@@ -585,9 +709,10 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 <nav class="nav" id="nav">
   <a href="#hero" class="nav_logo">BUBSEN<span>3D</span></a>
   <ul class="nav_links" id="navLinks">
-    <li><a href="#about">Обо мне</a></li>
     <li><a href="#showreel">Шоурил</a></li>
-    <li><a href="#portfolio">Портфолио</a></li>
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#portfolio">Кейсы</a></li>
+    <li><a href="#brief">Бриф</a></li>
     <li><a href="#contact">Контакты</a></li>
   </ul>
   <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -607,7 +732,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 <div class="hero_content reveal" data-parallax="0.04">
   <span class="hero_badge">✦ 3D Artist · Tech Pipelines · Motion ✦</span>
   <h1 class="hero_title">Создаю <em>миры</em> и<br>автоматизирую <em>процессы</em></h1>
-  <p class="hero_desc">От стилизованных синематиков и AE-типографики до сборки нодовых пайплайнов в N8N.</p>
+  <p class="hero_desc">Короткие синематики, 3D-визуалы, монтаж, лендинги и автоматизации для digital-проектов, игр, музыки, брендов и контента.</p>
   <a href="#showreel" class="hero_cta" aria-label="Смотреть Showreel" data-label="Смотреть Showreel ▼">Смотреть Showreel ▼</a>
 </div>
   <div class="hero_scroll"><span>Scroll</span><div class="scroll-dots"><i></i><i></i><i></i></div></div>
@@ -625,15 +750,14 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     <div class="about_text reveal-r">
       <span class="section_number">// 01</span>
       <h2>Привет, я - <em>Дмитрий Бубсень</em></h2>
-      <p>Я <strong>Generalist</strong>: работаю на стыке арта и технических процессов.</p>
-      <p>Моя цель - не просто сделать красивую картинку, но и выстроить пайплайн, в котором проекты собираются эффективно. Владею как созданием самого разного визуала, так и нодовой автоматизацией.</p>
+      <p>Я визуальный generalist: работаю на стыке 3D, анимации, монтажа, цвета, веба и технических пайплайнов. Могу закрыть проект от идеи и структуры до финального ролика, промо-страницы или автоматизации.</p>
+      <p>Мой фокус - короткие синематики, атмосферные 3D-визуалы, visual storytelling и аккуратные digital-системы, которые выглядят стильно и помогают проекту продаваться лучше.</p>
       <div class="software">
-        <span class="software_badge">Unreal Engine</span><span class="software_badge">Blender3D</span>
-        <span class="software_badge">After Effects</span><span class="software_badge">N8N</span>
-        <span class="software_badge">JavaScript</span><span class="software_badge">HTML/CSS</span>
-        <span class="software_badge">DaVinci Resolve</span>
-        <span class="software_badge">MAYA</span><span class="software_badge">Cascadeur</span>
-        <span class="software_badge">Figma</span>
+        <span class="software_badge">Blender3D</span><span class="software_badge">Unreal Engine</span>
+        <span class="software_badge">Maya</span><span class="software_badge">DaVinci Resolve</span>
+        <span class="software_badge">After Effects</span><span class="software_badge">HTML/CSS</span>
+        <span class="software_badge">JavaScript</span><span class="software_badge">N8N</span>
+        <span class="software_badge">Figma</span><span class="software_badge">Cascadeur</span>
       </div>
     </div>
   </div>
@@ -652,44 +776,252 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
   </div>
 </section>
 
-<!-- PROFESSIONAL HUB -->
-<section class="section section-border section-alt" id="portfolio">
+<!-- SERVICES -->
+<section class="section section-border" id="services">
   <div class="section_header">
     <span class="section_number reveal">// 03</span>
-    <h2 class="section_title reveal">Professional <em>Hub</em></h2>
-    <p class="section_desc reveal">Выберите категорию для детального просмотра проектов.</p>
+    <h2 class="section_title reveal">Что можно <em>заказать</em></h2>
+    <p class="section_desc reveal">Собираю короткие ролики, 3D-визуалы, промо-страницы и технические решения под задачу: от идеи и визуального направления до финальной сборки.</p>
+    <div class="section_divider reveal"></div>
+  </div>
+
+  <div class="services-grid">
+    <article class="service-card service-card_featured service-reveal-card pixel-corners reveal">
+      <div class="service-media" aria-hidden="true">
+        <video class="service-media_asset" autoplay muted loop playsinline preload="metadata" poster="assets/cinematics/w1.webp">
+          <source src="assets/cinematics/w1.mp4" type="video/mp4">
+        </video>
+        <div class="service-media_overlay"></div>
+      </div>
+      <div class="service-card_base">
+        <div class="service-topline">
+          <span class="service-index">УСЛУГА // 01</span>
+          <span class="service-badge pixel-corners">MAIN OFFER</span>
+        </div>
+        <div class="service-base_bottom">
+          <h3 class="service-title">Cinematic Short / Тизер</h3>
+          <p class="service-result"><span>На выходе:</span> готовый ролик 10–40 сек</p>
+          <p class="service-format">Формат заказа: короткий синематик</p>
+          <span class="service-price"><small>от</small><strong>18 000 ₽</strong></span>
+        </div>
+      </div>
+      <div class="service-reveal-panel">
+        <p class="service-summary">Короткая визуальная история под релиз, игру, бренд или Shorts.</p>
+        <div class="service-price-ladder" aria-label="Детализация цены">
+          <span><b>micro:</b> <strong>от 18 000 ₽</strong></span>
+          <span><b>standard:</b> <strong>от 25 000 ₽</strong></span>
+          <span><b>complex:</b> <strong>по оценке</strong></span>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="service-cta service-cta_primary pixel-corners" target="_blank" rel="noopener">Заполнить бриф →</a>
+      </div>
+    </article>
+
+    <article class="service-card service-card_featured service-card_core service-reveal-card pixel-corners reveal">
+      <div class="service-media" aria-hidden="true">
+        <video class="service-media_asset" autoplay muted loop playsinline preload="metadata" poster="assets/cinematics/scp.webp">
+          <source src="assets/cinematics/scp_short.mp4" type="video/mp4">
+        </video>
+        <div class="service-media_overlay"></div>
+      </div>
+      <div class="service-card_base">
+        <div class="service-topline">
+          <span class="service-index">УСЛУГА // 02</span>
+          <span class="service-badge pixel-corners">CORE OFFER</span>
+        </div>
+        <div class="service-base_bottom">
+          <h3 class="service-title">Монтаж / Post-production</h3>
+          <p class="service-result"><span>На выходе:</span> ролик под публикацию</p>
+          <p class="service-format">Формат заказа: монтаж ролика</p>
+          <span class="service-price"><small>от</small><strong>4 000 ₽</strong></span>
+        </div>
+      </div>
+      <div class="service-reveal-panel">
+        <p class="service-summary">Монтаж ролика под публикацию: ритм, цвет, звук и финальная сборка.</p>
+        <div class="service-price-ladder" aria-label="Детализация цены">
+          <span><b>short:</b> <strong>от 4 000 ₽</strong></span>
+          <span><b>standard:</b> <strong>от 8 000 ₽</strong></span>
+          <span><b>package:</b> <strong>по оценке</strong></span>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="service-cta service-cta_primary pixel-corners" target="_blank" rel="noopener">Заполнить бриф →</a>
+      </div>
+    </article>
+
+    <article class="service-card service-card_compact service-reveal-card pixel-corners reveal">
+      <div class="service-media" aria-hidden="true">
+        <video class="service-media_asset" autoplay muted loop playsinline preload="metadata" poster="assets/3D ARTS_Modeling/the_moon.png">
+          <source src="assets/3D ARTS_Modeling/loop1.mp4" type="video/mp4">
+        </video>
+        <div class="service-media_overlay"></div>
+      </div>
+      <div class="service-card_base">
+        <div class="service-topline"><span class="service-index">УСЛУГА // 03</span></div>
+        <div class="service-base_bottom">
+          <h3 class="service-title">3D Visual / Scene / Loop</h3>
+          <p class="service-result"><span>На выходе:</span> рендер, сцена или loop</p>
+          <p class="service-format">Формат заказа: 3D-визуал / loop</p>
+          <span class="service-price"><small>от</small><strong>10 000 ₽</strong></span>
+        </div>
+      </div>
+      <div class="service-reveal-panel">
+        <p class="service-summary">Атмосферный 3D-визуал, сцена или loop-анимация для промо.</p>
+        <div class="service-price-ladder" aria-label="Детализация цены">
+          <span><b>visual:</b> <strong>от 10 000 ₽</strong></span>
+          <span><b>loop:</b> <strong>от 15 000 ₽</strong></span>
+          <span><b>promo scene:</b> <strong>по оценке</strong></span>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="service-cta pixel-corners" target="_blank" rel="noopener">Заполнить бриф →</a>
+      </div>
+    </article>
+
+    <article class="service-card service-card_compact service-reveal-card pixel-corners reveal">
+      <div class="service-media" aria-hidden="true">
+        <img class="service-media_asset" src="assets/3D ARTS_Modeling/chear(noneAO)inGrass.webp" alt="" loading="lazy">
+        <div class="service-media_overlay"></div>
+      </div>
+      <div class="service-card_base">
+        <div class="service-topline"><span class="service-index">УСЛУГА // 04</span></div>
+        <div class="service-base_bottom">
+          <h3 class="service-title">3D Props / Modeling</h3>
+          <p class="service-result"><span>На выходе:</span> 3D-модель или набор ассетов</p>
+          <p class="service-format">Формат заказа: prop / asset / pack</p>
+          <span class="service-price"><small>от</small><strong>3 000 ₽</strong></span>
+        </div>
+      </div>
+      <div class="service-reveal-panel">
+        <p class="service-summary">Стилизованные prop-ассеты для игр, сцен, синематиков и презентаций.</p>
+        <div class="service-price-ladder" aria-label="Детализация цены">
+          <span><b>simple prop:</b> <strong>от 3 000 ₽</strong></span>
+          <span><b>stylized asset:</b> <strong>от 8 000 ₽</strong></span>
+          <span><b>game-ready / pack:</b> <strong>по оценке</strong></span>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="service-cta pixel-corners" target="_blank" rel="noopener">Заполнить бриф →</a>
+      </div>
+    </article>
+
+    <article class="service-card service-card_compact service-reveal-card pixel-corners reveal">
+      <div class="service-media" aria-hidden="true">
+        <!-- Later replace with real landing screen-recording: assets/service-landing-preview.mp4 -->
+        <img class="service-media_asset" src="assets/BGimg/1920х1080BG.png" alt="" loading="lazy">
+        <div class="service-media_overlay"></div>
+      </div>
+      <div class="service-card_base">
+        <div class="service-topline"><span class="service-index">УСЛУГА // 05</span></div>
+        <div class="service-base_bottom">
+          <h3 class="service-title">Лендинг / Promo Page</h3>
+          <p class="service-result"><span>На выходе:</span> готовая промо-страница</p>
+          <p class="service-format">Формат заказа: промо-страница</p>
+          <span class="service-price"><small>от</small><strong>30 000 ₽</strong></span>
+        </div>
+      </div>
+      <div class="service-reveal-panel">
+        <p class="service-summary">Промо-страница под проект, продукт, дроп, портфолио или услугу.</p>
+        <div class="service-price-ladder" aria-label="Детализация цены">
+          <span><b>mini:</b> <strong>от 30 000 ₽</strong></span>
+          <span><b>landing:</b> <strong>от 40 000 ₽</strong></span>
+          <span><b>visual page:</b> <strong>по оценке</strong></span>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="service-cta pixel-corners" target="_blank" rel="noopener">Заполнить бриф →</a>
+      </div>
+    </article>
+
+    <article class="service-card service-card_compact service-card_vector service-reveal-card pixel-corners reveal">
+      <div class="service-media" aria-hidden="true">
+        <div class="service-vector-preview">
+          <span class="vector-line vector-line--a"></span>
+          <span class="vector-line vector-line--b"></span>
+          <span class="vector-mark"></span>
+        </div>
+        <div class="service-media_overlay"></div>
+      </div>
+      <div class="service-card_base">
+        <div class="service-topline"><span class="service-index">УСЛУГА // 06</span></div>
+        <div class="service-base_bottom">
+          <h3 class="service-title">Vector Cover / Key Visual</h3>
+          <p class="service-result"><span>На выходе:</span> обложка, постер или key visual</p>
+          <p class="service-format">Формат заказа: cover / visual / pack</p>
+          <span class="service-price"><small>от</small><strong>6 000 ₽</strong></span>
+        </div>
+      </div>
+      <div class="service-reveal-panel">
+        <p class="service-summary">Векторная обложка, постер или key visual под проект, релиз, канал или презентацию.</p>
+        <div class="service-price-ladder" aria-label="Детализация цены">
+          <span><b>cover:</b> <strong>от 6 000 ₽</strong></span>
+          <span><b>key visual:</b> <strong>от 12 000 ₽</strong></span>
+          <span><b>pack / series:</b> <strong>по оценке</strong></span>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="service-cta pixel-corners" target="_blank" rel="noopener">Заполнить бриф →</a>
+      </div>
+    </article>
+
+    <article class="service-card service-card_compact service-reveal-card pixel-corners reveal">
+      <div class="service-media" aria-hidden="true">
+        <!-- Later replace with real flow preview: assets/service-automation-preview.mp4 -->
+        <div class="service-flow-preview">
+          <span class="flow-node flow-node--form">form</span>
+          <span class="flow-node flow-node--bot">bot</span>
+          <span class="flow-node flow-node--role">role</span>
+          <span class="flow-node flow-node--notify">notify</span>
+        </div>
+        <div class="service-media_overlay"></div>
+      </div>
+      <div class="service-card_base">
+        <div class="service-topline"><span class="service-index">УСЛУГА // 07</span></div>
+        <div class="service-base_bottom">
+          <h3 class="service-title">Discord / n8n</h3>
+          <p class="service-result"><span>На выходе:</span> сервер + базовая автоматизация</p>
+          <p class="service-format">Формат заказа: сервер / automation flow</p>
+          <span class="service-price"><small>от</small><strong>10 000 ₽</strong></span>
+        </div>
+      </div>
+      <div class="service-reveal-panel">
+        <p class="service-summary">Сервер, роли, боты и базовая автоматизация процессов.</p>
+        <div class="service-price-ladder" aria-label="Детализация цены">
+          <span><b>Discord base:</b> <strong>от 10 000 ₽</strong></span>
+          <span><b>bots / roles:</b> <strong>от 20 000 ₽</strong></span>
+          <span><b>n8n flow:</b> <strong>по оценке</strong></span>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="service-cta pixel-corners" target="_blank" rel="noopener">Заполнить бриф →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- PROJECT HUB -->
+<section class="section section-border section-alt" id="portfolio">
+  <div class="section_header">
+    <span class="section_number reveal">// 04</span>
+    <h2 class="section_title reveal">Project <em>Hub</em></h2>
+    <p class="section_desc reveal">Выберите направление, чтобы посмотреть релевантные работы: синематики, 3D-визуалы, анимацию, монтаж, лендинги и автоматизации.</p>
     <div class="section_divider reveal"></div>
   </div>
 
   <!-- FILTERS -->
   <div class="portfolio-filters reveal">
-    <button class="filter-btn pixel-corners active" data-filter="all">Всё подряд</button>
-    <button class="filter-btn pixel-corners" data-filter="cine">Синематики</button>
-    <button class="filter-btn pixel-corners" data-filter="3dart">3D Arts / Modeling</button>
+    <button class="filter-btn pixel-corners active" data-filter="all">Все кейсы</button>
+    <button class="filter-btn pixel-corners" data-filter="cine">Синематики / Тизеры</button>
+    <button class="filter-btn pixel-corners" data-filter="3dart">2D / 3D Visuals</button>
     <button class="filter-btn pixel-corners" data-filter="anim">Анимация</button>
-    <button class="filter-btn pixel-corners" data-filter="post">Post-Production</button>
-    <button class="filter-btn pixel-corners" data-filter="ae">AE Motion</button>
-    <button class="filter-btn pixel-corners" data-filter="vector">Vector/Raster</button>
-    <button class="filter-btn pixel-corners" data-filter="n8n">N8N / Pipelines</button>
+    <button class="filter-btn pixel-corners" data-filter="post">Монтаж / Post</button>
+    <button class="filter-btn pixel-corners" data-filter="landing">Лендинги</button>
+    <button class="filter-btn pixel-corners" data-filter="n8n">Автоматизация</button>
   </div>
   <div class="portfolio-filters_mobile reveal">
     <label for="mobileFilter" style="position:absolute;left:-9999px;">Фильтр портфолио</label>
     <select id="mobileFilter" class="filter-select pixel-corners" aria-label="Фильтр портфолио">
-      <option value="all">Р’СЃС‘ РїРѕРґСЂСЏРґ</option>
-      <option value="cine">РЎРёРЅРµРјР°С‚РёРєРё</option>
-      <option value="3dart">3D Arts / Modeling</option>
-      <option value="anim">РђРЅРёРјР°С†РёСЏ</option>
-      <option value="post">Post-Production</option>
-      <option value="ae">AE Motion</option>
-      <option value="vector">Vector/Raster</option>
-      <option value="n8n">N8N / Pipelines</option>
+      <option value="all">Все кейсы</option>
+      <option value="cine">Синематики / Тизеры</option>
+      <option value="3dart">2D / 3D Visuals</option>
+      <option value="anim">Анимация</option>
+      <option value="post">Монтаж / Post</option>
+      <option value="landing">Лендинги</option>
+      <option value="n8n">Автоматизация</option>
     </select>
   </div>
 
   <div class="gallery-grid" id="hub-grid">
     
     <!-- === CINEMATICS (2) === -->
-     <div class="gallery-item reveal" data-category="cine">
+     <div class="gallery-item reveal" data-category="cine" style="order:1;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/cinematics/w8.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -732,7 +1064,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
   </div>
 </div>
-     <div class="gallery-item reveal" data-category="cine">
+     <div class="gallery-item reveal" data-category="cine" style="order:4;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/cinematics/w7.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -766,7 +1098,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
   </div>
 </div>
-     <div class="gallery-item reveal" data-category="cine">
+     <div class="gallery-item reveal" data-category="cine" style="order:2;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/cinematics/w6_1.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -801,7 +1133,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
   </div>
 </div>
-     <div class="gallery-item reveal" data-category="cine">
+     <div class="gallery-item reveal" data-category="cine" style="order:8;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/cinematics/w5.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -838,7 +1170,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
   </div>
 </div>
-     <div class="gallery-item reveal" data-category="cine">
+     <div class="gallery-item reveal" data-category="cine" style="order:7;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/cinematics/w4.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -873,7 +1205,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
   </div>
 </div>
-     <div class="gallery-item reveal" data-category="cine">
+     <div class="gallery-item reveal" data-category="cine" style="order:5;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/cinematics/w2.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -910,7 +1242,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
   </div>
 </div>
 
-    <div class="gallery-item reveal" data-category="cine" data-type="video" data-src="assets/cinematics/w1.mp4" data-gallery="hub">
+    <div class="gallery-item reveal" data-category="cine" data-type="video" data-src="assets/cinematics/w1.mp4" data-gallery="hub" style="order:3;">
       <div class="gallery-item_inner pixel-corners">
         <img src="assets/cinematics/w1.webp" alt="">
         <div class="gallery-item_play"></div>
@@ -944,13 +1276,13 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
       </div>
     </div>
 
-    <div class="gallery-item reveal" data-category="cine">
+    <div class="gallery-item reveal" data-category="3dart" style="order:12;">
       <div class="gallery-item_inner pixel-corners">
         <img src="assets/cinematics/dark_bg.webp" alt="" loading="lazy">
         <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
         <div class="gallery-item_overlay">
           <h4>Dark Planet</h4>
-          <p>Blender3D · Eevee</p>
+          <p>Blender3D · Eevee · Loop Visual</p>
         </div>
       </div>
 
@@ -958,7 +1290,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
       <div class="project-details" style="display: none;">
         <div class="project-header">
           <h3>Dark Planet</h3>
-          <p><strong>Луп-Анимация вращения планеты</strong></p>
+          <p><strong>Атмосферный 3D loop visual с вращением планеты.</strong></p>
           <p>Времени потрачено: 2-3 часа.</p>
         </div>
         <div class="project-collage">
@@ -976,7 +1308,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
       </div>
     </div>
     
-<div class="gallery-item reveal" data-category="cine">
+<div class="gallery-item reveal" data-category="cine" style="order:6;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/cinematics/scp.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -1009,7 +1341,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
 </div>
 
     <!-- === 3D ARTS / MODELING (2) === -->
-     <div class="gallery-item reveal" data-category="3dart">
+     <div class="gallery-item reveal" data-category="3dart" style="order:9;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/3D ARTS_Modeling/dreamcore1.webp" alt="" loading="lazy">
     <div class="gallery-item_overlay">
@@ -1046,7 +1378,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
    <!-- 3D artt -->
    <!-- 3D ВСТАВИТЬ ТУТ -->
    <!-- 3D ВСТАВИТЬ ТУТ -->
-    <div class="gallery-item reveal" data-category="3dart">
+    <div class="gallery-item reveal" data-category="3dart" style="order:11;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/3D ARTS_Modeling/optico11.webp" alt="" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -1080,7 +1412,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
   </div>
 </div>
-    <div class="gallery-item reveal" data-category="3dart">
+    <div class="gallery-item reveal" data-category="3dart" style="order:10;">
       <div class="gallery-item_inner pixel-corners">
         <img src="assets/3D ARTS_Modeling/the_moon.png" alt="" loading="lazy">
         <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
@@ -1110,7 +1442,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
         </div>
       </div>
     </div>
-    <div class="gallery-item reveal" data-category="3dart" data-type="image">
+    <div class="gallery-item reveal" data-category="3dart" data-type="image" style="order:13;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/3D ARTS_Modeling/chear(noneAO)inGrass.webp" alt="Chear">
     <div class="gallery-item_overlay">
@@ -1141,7 +1473,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
   </div>
 </div>
-  <div class="gallery-item reveal" data-category="3dart">
+  <div class="gallery-item reveal" data-category="3dart" style="order:14;">
   <div class="gallery-item_inner pixel-corners">
     <img src="assets/3D ARTS_Modeling/RED_topology2.webp" alt="" loading="lazy">
     <div class="gallery-item_overlay">
@@ -1175,24 +1507,69 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
   </div>
 </div>
 
-    <!-- === ANIMATION (2) === -->
-    <div class="gallery-item reveal" data-category="anim" data-type="video" data-src="anim1.mp4" data-gallery="hub">
+    <!-- === ANIMATION === -->
+    <div class="gallery-item gallery-item--wide animation-reel-card pixel-corners reveal" data-category="anim" style="order:15;">
+      <div class="wide-media">
+        <video class="animation-reel-video" data-inline-src="assets/cinematics/w8_anim.mp4" controls muted loop playsinline preload="metadata" poster="assets/cinematics/w8.webp"></video>
+      </div>
+      <div class="wide-content">
+        <span class="portfolio-kicker">Animation Reel</span>
+        <h3>Animation Mini Showreel</h3>
+        <p>Отдельная подборка по движению: playblast, ритм шотов, позы, тайминг и технические проходы из проектов.</p>
+        <ul>
+          <li>Основной фокус - движение и читаемость действия</li>
+          <li>Ниже - отдельные animation / playblast работы</li>
+          <li>Формат удобно заменить на финальный Maya showreel, когда он будет готов</li>
+        </ul>
+        <div class="tech-stack">
+          <span class="tech-tag">Maya</span><span class="tech-tag">Cascadeur</span><span class="tech-tag">Blender3D</span><span class="tech-tag">Playblast</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="gallery-item animation-slot reveal" data-category="anim" style="order:16;">
       <div class="gallery-item_inner pixel-corners">
-        <img src="https://placehold.co/800x450/1b3a28/3a7a50?text=Character+Anim" alt="">
-        <div class="gallery-item_play"></div>
-        <div class="gallery-item_overlay"><h4>Combat Combo</h4><p>Cascadeur · UE5</p></div>
+        <div class="animation-slot_art" aria-hidden="true"></div>
+        <div class="gallery-item_overlay">
+          <h4>Animation Case 01</h4>
+          <p>Maya · Playblast</p>
+        </div>
       </div>
     </div>
-    <div class="gallery-item reveal" data-category="anim" data-type="video" data-src="anim2.mp4" data-gallery="hub">
+
+    <div class="gallery-item animation-slot reveal" data-category="anim" style="order:17;">
       <div class="gallery-item_inner pixel-corners">
-        <img src="https://placehold.co/800x450/1b3a28/3a7a50?text=Locomotion" alt="">
-        <div class="gallery-item_play"></div>
-        <div class="gallery-item_overlay"><h4>Advanced Locomotion</h4><p>Maya</p></div>
+        <div class="animation-slot_art" aria-hidden="true"></div>
+        <div class="gallery-item_overlay">
+          <h4>Animation Case 02</h4>
+          <p>Body Mechanics</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-item animation-slot reveal" data-category="anim" style="order:18;">
+      <div class="gallery-item_inner pixel-corners">
+        <div class="animation-slot_art" aria-hidden="true"></div>
+        <div class="gallery-item_overlay">
+          <h4>Animation Case 03</h4>
+          <p>Character Acting</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-item animation-slot reveal" data-category="anim" style="order:19;">
+      <div class="gallery-item_inner pixel-corners">
+        <div class="animation-slot_art" aria-hidden="true"></div>
+        <div class="gallery-item_overlay">
+          <h4>Animation Case 04</h4>
+          <p>Creature / Locomotion</p>
+        </div>
       </div>
     </div>
 
     <!-- === POST-PRODUCTION 1 (INTERACTIVE WIDE SLIDER) === -->
-    <div class="gallery-item gallery-item--wide pixel-corners reveal" data-category="post">
+    <div class="gallery-item gallery-item--wide pixel-corners reveal" data-category="post" style="order:20;">
       <div class="wide-media">
         <!-- Встроенный слайдер до/после -->
         <div class="ba-slider" data-before-after>
@@ -1216,15 +1593,15 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
       </div>
     </div>
 
-    <!-- === AE MOTION (2) === -->
-    <div class="gallery-item reveal" data-category="ae" data-type="video" data-src="ae1.mp4" data-gallery="hub">
+    <!-- === POST / MOTION (2) === -->
+    <div class="gallery-item reveal" data-category="post" data-type="video" data-src="ae1.mp4" data-gallery="hub" style="order:21;">
       <div class="gallery-item_inner pixel-corners">
         <img src="https://placehold.co/800x450/1b3a28/3a7a50?text=Kinetic+Typography" alt="">
         <div class="gallery-item_play"></div>
         <div class="gallery-item_overlay"><h4>Kinetic Promo</h4><p>After Effects</p></div>
       </div>
     </div>
-    <div class="gallery-item reveal" data-category="ae" data-type="video" data-src="ae2.mp4" data-gallery="hub">
+    <div class="gallery-item reveal" data-category="post" data-type="video" data-src="ae2.mp4" data-gallery="hub" style="order:22;">
       <div class="gallery-item_inner pixel-corners">
         <img src="https://placehold.co/800x450/1b3a28/3a7a50?text=HUD+Design" alt="">
         <div class="gallery-item_play"></div>
@@ -1232,50 +1609,46 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
       </div>
     </div>
 
-    <!-- === Vector (2) === -->
-    <div class="gallery-item reveal" data-category="vector">
+    <!-- === LANDING === -->
+    <div class="gallery-item reveal" data-category="landing" style="order:30;">
   <div class="gallery-item_inner pixel-corners">
-    <img src="ПРЕВЬЮ_В_СЕТКЕ.webp" alt="" loading="lazy">
+    <img src="https://placehold.co/800x450/132a1b/4ade80?text=Landing+Case" alt="Landing case preview" loading="lazy">
     <div class="gallery-item_play"></div> <!-- Иконка плей, если внутри видео -->
     <div class="gallery-item_overlay">
-      <h4>---</h4>
-      <p>---</p>
+      <h4>Landing Case</h4>
+      <p>Web design · Frontend · Conversion</p>
     </div>
   </div>
 
   <!-- Контент, который откроется при клике -->
   <div class="project-details" style="display: none;">
     <div class="project-header">
-      <h3>---</h3>
-      <p>---</p>
+      <h3>Landing Case</h3>
+      <p>Лендинг с акцентом на визуальный первый экран, понятную структуру оффера и быструю заявку.</p>
     </div>
     <div class="project-collage">
-      <!-- Видео -->
       <div class="collage-item">
-        <video data-src="ВИДЕО.mp4" controls autoplay muted loop playsinline></video>
-        <span>---</span>
+        <img data-src="https://placehold.co/1200x800/132a1b/4ade80?text=Landing+Preview" alt="">
+        <span>Структура экрана, визуальный стиль и CTA-блок.</span>
       </div>
-      <!-- Фото -->
       <div class="collage-item">
-        <img data-src="ФОТО_СЕТКИ.webp" alt="">
-        <span>---</span>
+        <img data-src="https://placehold.co/1200x800/0f1f15/a7f3d0?text=Responsive+Sections" alt="">
+        <span>Адаптивные секции для десктопа и мобильной версии.</span>
       </div>
     </div>
   </div>
 </div>
 
     <!-- === POST-PRODUCTION 2 (Standard breakdown) === -->
-    <div class="gallery-item reveal" data-category="post" data-type="video" data-src="post2.mp4" data-gallery="hub">
+    <div class="gallery-item reveal" data-category="post" data-type="video" data-src="post2.mp4" data-gallery="hub" style="order:23;">
       <div class="gallery-item_inner pixel-corners">
         <img src="https://placehold.co/800x450/1b3a28/3a7a50?text=VFX+Breakdown" alt="">
         <div class="gallery-item_play"></div>
         <div class="gallery-item_overlay"><h4>VFX Breakdown</h4><p>Nuke / After Effects</p></div>
       </div>
     </div>
-  </div>
-
       <!-- === N8N WIDE CARD 1 === -->
-    <div class="gallery-item gallery-item--wide pixel-corners reveal" data-category="n8n">
+    <div class="gallery-item gallery-item--wide pixel-corners reveal" data-category="n8n" style="order:40;">
       <div class="wide-media">
         <img src="https://placehold.co/900x600/132a1b/4ade80?text=N8N+Node+Graph" alt="N8N Nodes">
       </div>
@@ -1296,7 +1669,7 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
     </div>
 
         <!-- === N8N WIDE CARD 2 === -->
-    <div class="gallery-item gallery-item--wide pixel-corners reveal" data-category="n8n">
+    <div class="gallery-item gallery-item--wide pixel-corners reveal" data-category="n8n" style="order:41;">
       <div class="wide-media">
         <img src="https://placehold.co/900x600/132a1b/4ade80?text=N8N+Task+System" alt="Task Logic">
       </div>
@@ -1314,17 +1687,18 @@ body.menu-open{overflow:hidden;position:fixed;width:100%;}
         </div>
       </div>
     </div>
+  </div>
 </section>
 
 <!-- CONTACT -->
 <section class="section section-border contact" id="contact">
   <div class="ambient-glow" style="top:0;left:20%;width:60%;height:100%;background:radial-gradient(circle,rgba(74,222,128,.04),transparent 60%);"></div>
   <div class="section_header">
-    <span class="section_number reveal">// 04</span>
+    <span class="section_number reveal">// 05</span>
     <h2 class="section_title reveal">Давайте <em>работать</em> вместе</h2>
     <div class="section_divider reveal"></div>
   </div>
-  <div class="contact_brief reveal">
+  <div class="contact_brief reveal" id="brief">
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSeabTw0oUU_HsbwzXLYToqIz5SiVTdV4usc12RL-iZg5u1kYA/viewform?usp=header" class="contact_link pixel-corners" target="_blank" rel="noopener">▣ Заполнить бриф</a>
   </div>
   <div class="contact_links reveal">
@@ -1522,6 +1896,8 @@ container.querySelectorAll('video:not([data-sound-ready])').forEach(v => {
 
   galleryItems.forEach(item => { 
     item.addEventListener('click', (e) => { 
+      if (item.classList.contains('animation-reel-card')) return;
+      if (!item.querySelector('.project-details') && !item.dataset.src) return;
       if (!e.target.closest('[data-before-after]')) openLB(item); 
     }); 
   });
@@ -1800,6 +2176,29 @@ document.addEventListener('DOMContentLoaded', () => {
       video.play().catch(() => {});
     }
   };
+  const hydrateInlineVideos = () => {
+    document.querySelectorAll('video[data-inline-src]').forEach(video => {
+      if (isPlaceholderMediaSrc(video.dataset.inlineSrc)) {
+        video.removeAttribute('data-inline-src');
+        return;
+      }
+
+      const videoSrc = resolveMediaSrc(video.dataset.inlineSrc);
+      hydrateVideo(video, videoSrc, false, video.hasAttribute('autoplay'));
+      video.removeAttribute('data-inline-src');
+    });
+  };
+  const toggleInlineReel = (card) => {
+    const video = card && card.querySelector('.animation-reel-video');
+    if (!video) return;
+
+    if (video.paused) {
+      video.play().catch(() => {});
+      return;
+    }
+
+    video.pause();
+  };
   const isPlaceholderMediaSrc = (src) => {
     if (!src) return true;
 
@@ -1999,14 +2398,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (mobileFilter) {
     const mobileFilterLabels = {
-      all: 'Все подряд',
-      cine: 'Синематики',
-      '3dart': '3D Arts / Modeling',
+      all: 'Все кейсы',
+      cine: 'Синематики / Тизеры',
+      '3dart': '2D / 3D Visuals',
       anim: 'Анимация',
-      post: 'Post-Production',
-      ae: 'AE Motion',
-      vector: 'Vector/Raster',
-      n8n: 'N8N / Pipelines'
+      post: 'Монтаж / Post',
+      landing: 'Лендинги',
+      n8n: 'Автоматизация'
     };
 
     Array.from(mobileFilter.options).forEach(option => {
@@ -2436,6 +2834,12 @@ document.addEventListener('DOMContentLoaded', () => {
   galleryItems.forEach(card => {
     const inner = card.querySelector('.gallery-item_inner');
 
+    if (card.classList.contains('animation-reel-card')) {
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', 'Проиграть Animation Mini Showreel');
+    }
+
     if (isOpenableItem(card)) {
       card.tabIndex = 0;
       card.setAttribute('role', 'button');
@@ -2443,12 +2847,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     card.addEventListener('click', (e) => {
+      if (card.classList.contains('animation-reel-card')) {
+        if (!e.target.closest('video')) toggleInlineReel(card);
+        return;
+      }
       if (!isOpenableItem(card) || e.target.closest('[data-before-after]')) return;
       allowSoundForNextLightboxRender = e.isTrusted;
       openLB(card);
     });
 
     card.addEventListener('keydown', (e) => {
+      if (card.classList.contains('animation-reel-card')) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleInlineReel(card);
+        }
+        return;
+      }
       if (!isOpenableItem(card)) return;
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -2633,6 +3048,7 @@ document.addEventListener('DOMContentLoaded', () => {
     slider.addEventListener('touchend', () => { drag = false; });
   });
 
+  hydrateInlineVideos();
   initGalleryHoverVideos();
   initHeroCTAEffect();
   initHeroCTATapDelay();
